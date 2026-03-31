@@ -10,11 +10,14 @@ You can also include images in this folder and reference them in the markdown. E
 ## How it works
 
 Explain how your project works
+2 CMOS inverters in a row.
 
 ## How to test
 
 Explain how to use your project
+Input with a square wave, should be some rise time delay expected of around 4ns.
 
 ## External hardware
 
 List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+Signal Generator, Oscilloscope.

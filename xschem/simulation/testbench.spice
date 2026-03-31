@@ -1,0 +1,68 @@
+** sch_path: /home/ttuser/Documents/tt_bl_inverter/xschem/testbench.sch
+**.subckt testbench in in
+*.ipin in
+*.ipin in
+x1 net1 in out net2 bl_inverter
+V1 vdd GND 1.8
+V2 vss GND 0
+R1 out pin_out 500 m=1
+C1 pin_out GND 5p m=1
+V4 v_in GND 0 ac 1 0 sin(0.85 1000m 1M 0 0 0)
+Vmeas vdd net1 0
+.save i(vmeas)
+Vmeas1 net2 vss 0
+.save i(vmeas1)
+x2 net3 in out_parax net4 bl_inverter_parax
+R2 out_parax pin_out_parax 500 m=1
+C2 pin_out_parax GND 5p m=1
+Vmeas2 vdd net3 0
+.save i(vmeas2)
+Vmeas3 net4 vss 0
+.save i(vmeas3)
+**** begin user architecture code
+
+** opencircuitdesign pdks install
+.lib /home/ttuser/pdk/sky130A/libs.tech/ngspice/sky130.lib.spice tt
+
+
+
+
+
+* ngspice commands
+vin in 0 pulse 0 1.8 5n 1n 1n 50n 100n
+.options savecurrents
+.control
+save all
+tran 100p 200n
+write testbench.raw
+.endc
+
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  bl_inverter.sym # of pins=4
+** sym_path: /home/ttuser/Documents/tt_bl_inverter/xschem/bl_inverter.sym
+** sch_path: /home/ttuser/Documents/tt_bl_inverter/xschem/bl_inverter.sch
+.subckt bl_inverter VDD bl_v_in bl_v_out VSS
+*.iopin VDD
+*.iopin VSS
+*.ipin bl_v_in
+*.opin bl_v_out
+XM2 bl_v_1 bl_v_in VSS VSS sky130_fd_pr__nfet_01v8 L=0.15 W=1 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1
+XM4 bl_v_out bl_v_1 VSS VSS sky130_fd_pr__nfet_01v8 L=0.15 W=20 nf=20 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1
+XM5 bl_v_1 bl_v_in VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=1 nf=1 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1
+XM1 bl_v_out bl_v_1 VDD VDD sky130_fd_pr__pfet_01v8 L=0.15 W=20 nf=20 ad='int((nf+1)/2) * W/nf * 0.29' as='int((nf+2)/2) * W/nf * 0.29'
++ pd='2*int((nf+1)/2) * (W/nf + 0.29)' ps='2*int((nf+2)/2) * (W/nf + 0.29)' nrd='0.29 / W' nrs='0.29 / W' sa=0 sb=0 sd=0 mult=1 m=1
+.ends
+
+
+* expanding   symbol:  bl_inverter_parax.sym # of pins=4
+** sym_path: /home/ttuser/Documents/tt_bl_inverter/xschem/bl_inverter.sym
+.include /home/ttuser/Documents/tt_bl_inverter/mag/bl_inverter.sim.spice
+.GLOBAL GND
+.end
