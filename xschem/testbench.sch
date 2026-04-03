@@ -118,7 +118,7 @@ N 470 260 470 280 {
 lab=vdd}
 N 470 380 470 400 {
 lab=#net4}
-C {devices/code.sym} -550 -20 0 0 {name=TT_MODELS
+C {devices/code.sym} -450 -20 0 0 {name=TT_MODELS
 only_toplevel=true
 format="tcleval( @value )"
 value="
